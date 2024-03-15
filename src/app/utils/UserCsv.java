@@ -60,16 +60,15 @@ public class UserCsv {
 
     public void writeCsv(LinkedHashMap<String, User> users) throws IOException {
         Path pathToFile = Paths.get(Config.ABS_USER_FILE_PATH);
+
         try (FileWriter writer = new FileWriter(pathToFile.toAbsolutePath().toString())) {
             writer.write(header);
             writer.write("\n");
-            users.forEach((key, value) -> {
-                try {
-                    writer.write(toCsvLine(value));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            for (Map.Entry<String, User> entry : users.entrySet()) {
+                User userData = entry.getValue();
+                writer.write(toCsvLine(userData));
+                writer.write("\n");
+            }
         }
     }
 
